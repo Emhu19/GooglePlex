@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GogolPlex - Simplifiez vos recherches web avec notre moteur sobre et innovant.">
+    <title>GogolPlex</title>
+    <link href="https://fonts.googleapis.com/css2?family=DejaVu+Sans+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}?{% now 'U' %}">
+</head>
+
+<body>
+    <header class="header">
+        <button class="extra-btn left-btn">À propos</button>
+        <button class="extra-btn right-btn">Paramètres</button>
+    </header>
+
+    <div class="container">
+        <h1 class="title">GoogolPlex</h1>
+
+        <!-- Formulaire de recherche -->
+        <form method="get" action="{% url 'search' %}" class="search-form">
+            <input type="text" name="q" placeholder="Rechercher..." class="search-input" value="{{ request.GET.q }}" autocomplete="off">
+            <button type="submit" class="search-btn">🔍</button>
+        </form>
+
+        <div class="buttons-container">
+            <button class="extra-btn">Recherche Avancée</button>
+            <button class="extra-btn">Je n'ai pas de chance ?</button>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="results-container">
+        {% if results %}
+            <ul class="results-list">
+                {% for page, score in results|slice:":10" %}
+                    <li class="result-item">
+                        <a href="{{ page.url }}" class="result-title" target="_blank">
+                            {{ page.title }}
+                        </a>
+                        <p class="result-snippet">
+                            {{ page.content|truncatewords:22 }}
+                        </p>
+                        <p class="result-score">Score TF-IDF: {{ score }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% elif request.GET.q %}
+            <p class="no-results">Aucun résultat trouvé pour "{{ request.GET.q }}".</p>
+        {% endif %}
+    </div>
+</body>
+
+</html>
