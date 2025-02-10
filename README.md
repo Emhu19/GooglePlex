@@ -38,11 +38,24 @@
    ```bash
    git clone https://github.com/Emhu_19/googolplex.git
    cd googolplex
+   
+2. **Install virtual environment**:
+
+   ```bash
    python -m venv env
    source env/bin/activate  # On Windows: env\Scripts\activate
    pip install -r requirements.txt
+   
+3. **Migrate BDD**:
+
+   ```bash
    python manage.py migrate
+   
+4. **Start in local **:
+
+   ```bash
    python manage.py runserver
+
 
 ### Contributors
 
